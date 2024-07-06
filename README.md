@@ -1,10 +1,24 @@
 # Automated-Essay-Scoring-2.0
  
 ## Overview
-GitHub repo for the Kaggle Competition : [Automated Essay Scoring 2.0](https://www.kaggle.com/competitions/learning-agency-lab-automated-essay-scoring-2/overview) by the Learning Agency Lab. Final submission achieved a public LB of 0.808 and private LB of 0.821 for a 1,495th place finish.
+GitHub repo of the 1,495th place solution for the Kaggle Competition : [Automated Essay Scoring 2.0](https://www.kaggle.com/competitions/learning-agency-lab-automated-essay-scoring-2/overview) by the Learning Agency Lab. 
 
-## Hardware
-All training and inference performed on Kaggle notebooks with GPU T4 x 2 accelerator.
+Final performance:
+
+* 0.821 private LB
+* 0.808 public LB
+
+## Usage
+This project was run on Kaggle using the T4 GPUs for accelerated training and inference. To replicate the setup:
+
+ 1.	Set Up Kaggle Environment:
+    *	Navigate to Kaggle and create an account if you don’t have one.
+    *	Create a new notebook and select the T4 x 2 GPU accelerator.
+ 3.	Import Data and Code:
+    *	Import the competition dataset
+    *	Upload code from this repository to your Kaggle notebook.
+ 3. Run each LLM models-preload python files
+ 4. Run inference python file
 
 ## Final Approach
 
