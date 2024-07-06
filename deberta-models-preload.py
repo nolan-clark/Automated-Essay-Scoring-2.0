@@ -20,11 +20,11 @@ print(device)
 class PATHS:
     train_path = '/kaggle/input/learning-agency-lab-automated-essay-scoring-2/train.csv'
     test_path = '/kaggle/input/learning-agency-lab-automated-essay-scoring-2/test.csv'
-    model_path = 'allenai/longformer-base-4096' # pretrained model to fine-tune
+    model_path = "microsoft/deberta-v3-small" # pretrained model to fine-tune
 
 # Set configurations of tokenizer and trainer
 class CFG:
-    max_length = 2048
+    max_length = 1024
     train_batch_size = 2
     eval_batch_size = 2
 
@@ -77,7 +77,7 @@ tokenized_datasets = datasets.map(tokenize_function, batched=True)
 
 # Define training arguments
 training_args = TrainingArguments(
-    output_dir='/kaggle/working/',
+    output_dir='/kaggle/input/deberta-models-preload/',
     evaluation_strategy="epoch",
     learning_rate=2e-5,
     lr_scheduler_type = 'linear',
@@ -116,8 +116,8 @@ trainer = Trainer(
 trainer.train()
 
 # Save fine-tuned model and tokenizer
-model.save_pretrained('model')
-tokenizer.save_pretrained('token')
+model.save_pretrained('/kaggle/input/deberta-models-preload/model')
+tokenizer.save_pretrained('/kaggle/input/deberta-models-preload/token')
 
 
 # show performance metrics on train data
@@ -125,11 +125,11 @@ predictions=trainer.predict(tokenized_datasets['train']).predictions
 preds=predictions.round().astype(int).squeeze()
 
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
-cm = confusion_matrix(tokenized_datasets['train']['labels'], preds)
+cm = confusion_matrix(train_df['labels'], preds)
 
 ConfusionMatrixDisplay(cm).plot()
 plt.show()
-print('QWK Score: ',cohen_kappa_score(tokenized_datasets['train']['labels'], preds, weights='quadratic'))
+print('QWK Score: ',cohen_kappa_score(train_df['labels'], preds, weights='quadratic'))
 
 
 # --- Generate Optimized Thresholds for Classification ----
@@ -162,7 +162,7 @@ class OptunaRounder:
                             labels=self.labels)
         return opt_y_pred
 
-y = tokenized_datasets['train']['labels']
+y = train_df['labels']
 preds_valid = preds
 optuna.logging.set_verbosity(optuna.logging.WARNING) 
 objective = OptunaRounder(y - y.min(), preds_valid - y.min())
