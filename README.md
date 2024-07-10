@@ -19,6 +19,7 @@ This project was run on Kaggle using the T4 GPUs for accelerated training and in
     *	Upload code from this repository to your Kaggle notebook.
  3. Run each LLM models-preload python files
  4. Run inference python file
+    *   Import post-run files to the inference Kaggle notebook 
 
 ## Final Approach
 

@@ -36,6 +36,10 @@ model = AutoModelForSequenceClassification.from_pretrained(PATHS.model_path, num
 model.config.attention_probs_dropout_prob = 0.0
 model.config.hidden_dropout_prob=0.0
 
+# Add new tokens because DeBERTa removes "new paragraph" and "double space" from essay
+tokenizer.add_tokens([AddedToken("\n", normalized=False)])
+tokenizer.add_tokens([AddedToken(" "*2, normalized=False)])
+
 # data import
 train_df = pd.read_csv(PATHS.train_path)
 test_df = pd.read_csv(PATHS.test_path)
